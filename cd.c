@@ -3,50 +3,38 @@
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
-#include <limits.h>
-#include <stdio.h>
 
-#define MSG_SIZE 512
-
-static int	cd_error(const char *path, const char *error)
+static int	print_error(const char *command, const char *const path,
+	const char *const error)
 {
-	char	message[MSG_SIZE];
-
-	ft_bzero(message, MSG_SIZE);
-	ft_strlcat(message, "bash: ", MSG_SIZE);
+	ft_putstr_fd("minishell: ", 2);
+	if (command)
+	{
+		ft_putstr_fd(command, 2);
+		ft_putstr_fd(": ", 2);
+	}
 	if (path)
 	{
-		ft_strlcat(message, path, MSG_SIZE);
-		ft_strlcat(message, ": ", MSG_SIZE);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd(": ", 2);
 	}
 	if (error)
-		ft_strlcat(message, error, MSG_SIZE);
+		ft_putendl_fd(error, 2);
 	else
-		ft_strlcat(message, strerror(errno), MSG_SIZE);
-	ft_strlcat(message, "\n", MSG_SIZE);
-	ft_putstr_fd(message, 2);
+		ft_putendl_fd(strerror(errno), 2);
 	return (1);
 }
 
 int	main(int argc, char **argv)
 {
-	const char *const	home = getenv("HOME");
-	const char			*path;
-	char				cwd[PATH_MAX];
+	const char	*path = argv[1];
 
-	getcwd(cwd, PATH_MAX);
-	printf("%s\n", cwd);
 	if (argc > 2)
-		return (cd_error(NULL, "cd: too many arguments"));
-	path = argv[1];
+		return (print_error("cd", NULL, "too many arguments"));
 	if (!path)
-	{
-		if (!home)
-			return (cd_error(NULL, "cd: HOME not set"));
-		path = home;
-	}
-	if (chdir(path))
-		return (cd_error(path, strerror(errno)));
-	getcwd(cwd, PATH_MAX);
-	printf("%s\n", cwd);
+		path = getenv("HOME");
+	if (!path)
+		return (print_error("cd", NULL, "HOME not set"));
+	if (*path && chdir(path))
+		return (print_error("cd", path, NULL));
 }
