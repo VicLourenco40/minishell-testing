@@ -1,5 +1,4 @@
-#include <unistd.h>
-#include <string.h>
+#include <libft.h>
 
 int	main(int argc, char **argv)
 {
@@ -21,11 +20,11 @@ int	main(int argc, char **argv)
 	}
 	while (*argv)
 	{
-		write(1, *argv, strlen(*argv));
+		ft_putstr_fd(*argv, 1);
 		if (*(argv + 1))
-			write(1, " ", 1);
+			ft_putchar_fd(' ', 1);
 		++argv;
 	}
 	if (newline)
-		write(1, "\n", 1);
+		ft_putchar_fd('\n', 1);
 }
