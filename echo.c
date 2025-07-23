@@ -9,9 +9,9 @@ int	main(int argc, char **argv)
 	(void)argc;
 	newline = 1;
 	++argv;
-	while (*argv && **argv == '-' && (*argv)[1] == 'n')
+	while (*argv && (*argv)[0] == '-' && (*argv)[1])
 	{
-		i = 2;
+		i = 1;
 		while ((*argv)[i] == 'n')
 			++i;
 		if ((*argv)[i])
