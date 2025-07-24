@@ -1,11 +1,10 @@
 #include <libft.h>
 
-int	main(int argc, char **argv)
+int	echo(char **argv)
 {
 	int	newline;
 	int	i;
 
-	(void)argc;
 	newline = 1;
 	++argv;
 	while (*argv && (*argv)[0] == '-' && (*argv)[1])
@@ -27,4 +26,5 @@ int	main(int argc, char **argv)
 	}
 	if (newline)
 		ft_putchar_fd('\n', 1);
+	return (0);
 }

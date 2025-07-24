@@ -25,7 +25,7 @@ static int	print_error(const char *command, const char *const path,
 	return (1);
 }
 
-int	main(int argc, char **argv)
+int	cd(int argc, char **argv)
 {
 	const char	*path = argv[1];
 
@@ -37,4 +37,5 @@ int	main(int argc, char **argv)
 		return (print_error("cd", NULL, "HOME not set"));
 	if (*path && chdir(path))
 		return (print_error("cd", path, NULL));
+	return (0);
 }
